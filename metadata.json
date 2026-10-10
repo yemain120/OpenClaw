@@ -1,0 +1,7 @@
+{
+  "name": "OpenClaw Web",
+  "description": "OpenClaw Autonomous AI Agent Web Interface and Gateway - Multi-channel AI assistant runtime with built-in skills, sessions, and Vercel deployment readiness.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
+

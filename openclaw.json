@@ -1,0 +1,110 @@
+{
+  "$schema": "https://openclaw.ai/schema/openclaw.v1.json",
+  "version": "1.0.0",
+  "name": "OpenClaw Assistant",
+  "gateway": {
+    "host": "0.0.0.0",
+    "port": 18789,
+    "auth": {
+      "type": "bearer",
+      "tokenEnv": "OPENCLAW_GATEWAY_TOKEN"
+    },
+    "cors": ["*"],
+    "rateLimit": {
+      "windowMs": 60000,
+      "maxRequests": 120
+    }
+  },
+  "models": {
+    "default": "gemini-2.5-flash",
+    "fallback": "gpt-4o-mini",
+    "providers": {
+      "gemini": {
+        "enabled": true,
+        "defaultModel": "gemini-2.5-flash",
+        "models": ["gemini-2.5-flash", "gemini-2.5-pro"]
+      },
+      "openai": {
+        "enabled": true,
+        "defaultModel": "gpt-4o",
+        "models": ["gpt-4o", "gpt-4o-mini", "o3-mini"]
+      },
+      "anthropic": {
+        "enabled": false,
+        "defaultModel": "claude-3-7-sonnet",
+        "models": ["claude-3-7-sonnet", "claude-3-5-haiku"]
+      },
+      "groq": {
+        "enabled": false,
+        "defaultModel": "llama-3.3-70b-versatile",
+        "models": ["llama-3.3-70b-versatile"]
+      }
+    }
+  },
+  "skills": {
+    "terminal": {
+      "enabled": true,
+      "allowDangerousCommands": false,
+      "timeoutSeconds": 30,
+      "disallowedCommands": ["rm -rf /", ":(){ :|:& };:", "mkfs"]
+    },
+    "browser": {
+      "enabled": true,
+      "headless": true,
+      "timeoutSeconds": 45,
+      "viewport": {
+        "width": 1280,
+        "height": 720
+      }
+    },
+    "filesystem": {
+      "enabled": true,
+      "workspaceRoot": "./workspace",
+      "maxFileSizeMb": 10
+    },
+    "webSearch": {
+      "enabled": true,
+      "provider": "google-grounding",
+      "maxResults": 5
+    },
+    "cron": {
+      "enabled": true,
+      "timezone": "UTC"
+    },
+    "memory": {
+      "enabled": true,
+      "shortTermMessageLimit": 50,
+      "vectorPersistence": true
+    }
+  },
+  "channels": {
+    "telegram": {
+      "enabled": false,
+      "polling": true,
+      "webhookUrl": ""
+    },
+    "discord": {
+      "enabled": false,
+      "intents": ["GuildMessages", "MessageContent", "DirectMessages"]
+    },
+    "slack": {
+      "enabled": false,
+      "socketMode": true
+    },
+    "whatsapp": {
+      "enabled": false,
+      "qrAuth": true
+    },
+    "webhook": {
+      "enabled": true,
+      "path": "/api/webhook/claw"
+    }
+  },
+  "agent": {
+    "systemPrompt": "You are OpenClaw, a state-of-the-art autonomous AI agent and personal runtime assistant. You have full access to execute terminal commands, inspect and manipulate files, browse the live web, and trigger external channels. Always think step-by-step, verify outputs, and operate safely.",
+    "temperature": 0.4,
+    "maxTokens": 4096,
+    "autonomousMode": true,
+    "maxIterations": 10
+  }
+}
